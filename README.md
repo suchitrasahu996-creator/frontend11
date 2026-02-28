@@ -119,7 +119,7 @@ Password: password123
 ![Reports](./screenshots/reports.png)
 
 ### Video Walkthrough
-👉 
+👉 https://drive.google.com/file/d/15ncZK1hTUMw0-wE-E-KN7y0y4gda8wZ_/view?usp=sharing
 
 ## Future Improvements
 
