@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from '@/context/AuthContext';
 
 export default function Landing() {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
   return (
     <div className="bg-bgSoft min-h-screen">
 
