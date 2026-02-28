@@ -35,14 +35,14 @@ export function AppSidebar() {
             {!collapsed && (
               <div className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg finance-gradient">
-                  <span className="text-sm font-bold text-primary-foreground">F</span>
+                  <span className="text-sm font-bold text-primary-foreground">PF</span>
                 </div>
-                <span className="text-lg font-bold text-sidebar-accent-foreground">FinanceApp</span>
+                <span className="text-lg font-bold text-sidebar-accent-foreground">Personal Finance</span>
               </div>
             )}
             {collapsed && (
               <div className="flex h-8 w-8 items-center justify-center rounded-lg finance-gradient">
-                <span className="text-sm font-bold text-primary-foreground">F</span>
+                <span className="text-sm font-bold text-primary-foreground">PF</span>
               </div>
             )}
           </SidebarGroupLabel>

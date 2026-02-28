@@ -17,7 +17,7 @@ import Debts from "@/pages/Debts";
 import Investments from "@/pages/Investments";
 import Reports from "@/pages/Reports";
 import NotFound from "@/pages/NotFound";
-
+import Landing from "@/pages/Landing";
 const queryClient = new QueryClient();
 
 const ProtectedPage = ({ children }: { children: React.ReactNode }) => (
@@ -35,7 +35,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<ProtectedPage><Dashboard /></ProtectedPage>} />

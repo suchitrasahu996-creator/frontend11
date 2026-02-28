@@ -35,8 +35,8 @@ const Register = () => {
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl finance-gradient">
-            <span className="text-lg font-bold text-primary-foreground">F</span>
+          <div className="mx-auto mb-4 flex h-12 w-20 items-center justify-center rounded-xl finance-gradient">
+            <span className="text-lg font-bold text-primary-foreground">PF</span>
           </div>
           <CardTitle className="text-2xl">Create account</CardTitle>
           <CardDescription>Start managing your finances today</CardDescription>

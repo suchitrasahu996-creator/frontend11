@@ -19,13 +19,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <div className="flex items-center gap-3">
               <SidebarTrigger />
               <h2 className="text-sm font-medium text-muted-foreground hidden sm:block">
-                Personal Finance Dashboard
+                Personal Finance
               </h2>
             </div>
             {user && (
               <div className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                  {user.name?.charAt(0).toUpperCase() || 'U'}
+                  {user.name?.charAt(0).toUpperCase() ?? 'U'}
                 </div>
                 <span className="text-sm font-medium hidden sm:block">{user.name}</span>
               </div>
