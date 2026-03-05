@@ -9,13 +9,15 @@ import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2 ,PiggyBank} from 'lucide-react';
 import { formatCurrency, getTransactionCategories } from '@/utils/formatters';
 import { toast } from 'sonner';
 
 const Budgets = () => {
   const { budgets, loading, fetchBudgets } = useFinance();
   const [open, setOpen] = useState(false);
+   const [saveDialogId, setSaveDialogId] = useState<string | null>(null);
+   const [saveAmount, setSaveAmount] = useState(0);
   const [form, setForm] = useState<BudgetPayload>({ category: '', amount: 0, period: 'monthly' });
 
   useEffect(() => { fetchBudgets(); }, [fetchBudgets]);
@@ -30,6 +32,11 @@ const Budgets = () => {
       fetchBudgets();
     } catch (err: any) { toast.error(err.response?.data?.error || 'Failed'); }
   };
+  const handleSave = async () => {
+      if (!saveDialogId) return;
+      try { await budgetService.save(saveDialogId, saveAmount); toast.success('Amount saved!'); setSaveDialogId(null); setSaveAmount(0); fetchBudgets(); }
+      catch (err: any) { toast.error(err.response?.data?.error || 'Failed'); }
+    };
 
   const handleDelete = async (id: string) => {
     try {
@@ -78,6 +85,15 @@ const Budgets = () => {
           </DialogContent>
         </Dialog>
       </div>
+       <Dialog open={!!saveDialogId} onOpenChange={() => setSaveDialogId(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add Spent Amount</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2"><Label>Amount</Label><Input type="number" step="0.01" min="0" value={saveAmount || ''} onChange={(e) => setSaveAmount(parseFloat(e.target.value) || 0)} /></div>
+            <Button onClick={handleSave} className="w-full">Save  Spent Amount</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {loading.budgets ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[1,2,3].map(i => <Skeleton key={i} className="h-40" />)}</div>
@@ -92,9 +108,12 @@ const Budgets = () => {
               <Card key={b.id}>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-base">{b.category}</CardTitle>
+                  <div className="flex gap-1">
+              <Button variant="ghost" size="icon" onClick={() => setSaveDialogId(b.id)}><PiggyBank className="h-4 w-4 text-primary" /></Button>
                   <Button variant="ghost" size="icon" onClick={() => handleDelete(b.id)}>
                     <Trash2 className="h-4 w-4 text-muted-foreground" />
                   </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex justify-between text-sm">
@@ -103,6 +122,17 @@ const Budgets = () => {
                   </div>
                   <Progress value={pct} className="h-2" />
                   <p className="text-xs text-muted-foreground capitalize">{b.period} budget</p>
+                    {/* <Button
+    variant="outline"
+    size="sm"
+    className="w-full"
+    onClick={() => {
+      setSaveDialogId(b.id);
+      setSaveAmount(0);
+    }}
+  >
+    Add Spent
+  </Button> */}
                 </CardContent>
               </Card>
             );

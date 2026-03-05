@@ -113,7 +113,7 @@ Password: password123
 ![Debts](./screenshots/debts.png)
 
 ## Investment page
-![Investment](./screenshots/investment.png)
+![Investment](./screenshots/investment%20.png)
 
 ## Reports page
 ![Reports](./screenshots/reports.png)

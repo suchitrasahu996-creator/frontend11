@@ -20,6 +20,17 @@ const Bills = () => {
 
   useEffect(() => { fetchBills(); }, [fetchBills]);
 
+  const getStatus = (bill: any) => {
+    if (bill.is_paid) return "paid";
+
+    const today = new Date();
+    const dueDate = new Date(bill.due_date);
+
+    if (dueDate < today) return "overdue";
+
+    return "unpaid";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try { await billService.create(form); toast.success('Bill added'); setOpen(false); setForm({ name: '', amount: 0, due_date: '' }); fetchBills(); }
@@ -77,7 +88,21 @@ const Bills = () => {
                     <TableCell className="font-medium">{b.name}</TableCell>
                     <TableCell className="text-muted-foreground">{formatDate(b.due_date)}</TableCell>
                     <TableCell className="font-semibold">{formatCurrency(b.amount)}</TableCell>
-                    <TableCell><Badge variant={b.is_paid ? 'default' : 'destructive'}>{b.is_paid ? 'Paid' : 'Unpaid'}</Badge></TableCell>
+                   <TableCell>
+  {(() => {
+    const status = getStatus(b);
+
+    if (status === "paid") {
+      return <Badge className="bg-green-500">Paid</Badge>;
+    }
+
+    if (status === "overdue") {
+      return <Badge className="bg-red-600 animate-pulse">Overdue</Badge>;
+    }
+
+    return <Badge className="bg-yellow-500">Unpaid</Badge>;
+  })()}
+</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
                         {!b.is_paid && <Button variant="ghost" size="icon" onClick={() => handlePay(b.id)}><Check className="h-4 w-4 text-success" /></Button>}

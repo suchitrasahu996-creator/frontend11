@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import MonthlyTrendChart from '@/components/charts/MonthlyTrendChart';
 import CategoryPieChart from '@/components/charts/CategoryPieChart';
 import { formatCurrency, formatShortDate } from '@/utils/formatters';
-import { DollarSign, TrendingUp, TrendingDown, Receipt } from 'lucide-react';
+import { TrendingUp, TrendingDown, Receipt, IndianRupeeIcon } from 'lucide-react';
 
 const Dashboard = () => {
   const { dashboard, loading, fetchDashboard } = useFinance();
@@ -15,12 +15,33 @@ const Dashboard = () => {
 
   const isLoading = loading.dashboard;
 
-  const statCards = [
-    { title: 'Total Balance', value: dashboard?.totalBalance, icon: DollarSign, className: 'stat-card-balance' },
-    { title: 'Income', value: dashboard?.totalIncome, icon: TrendingUp, className: 'stat-card-income' },
-    { title: 'Expenses', value: dashboard?.totalExpense, icon: TrendingDown, className: 'stat-card-expense' },
-    { title: 'Upcoming Bills', value: dashboard?.upcomingBills?.length, icon: Receipt, className: 'stat-card-balance', isCurrency: false },
-  ];
+ const statCards = [
+  {
+    title: 'Total Balance',
+    value: dashboard?.balance,
+    icon: IndianRupeeIcon,
+    className: 'stat-card-balance'
+  },
+  {
+    title: 'Income',
+    value: dashboard?.totalIncome,
+    icon: TrendingUp,
+    className: 'stat-card-income'
+  },
+  {
+    title: 'Expenses',
+    value: dashboard?.totalExpenses,
+    icon: TrendingDown,
+    className: 'stat-card-expense'
+  },
+  {
+    title: 'Upcoming Bills',
+    value: dashboard?.billCount,
+    icon: Receipt,
+    className: 'stat-card-balance',
+    isCurrency: false
+  }
+];
 
   return (
     <div className="space-y-6">
