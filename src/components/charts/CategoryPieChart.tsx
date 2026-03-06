@@ -39,7 +39,7 @@ const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ data }) => {
             borderRadius: '8px',
             color: 'hsl(var(--card-foreground))',
           }}
-          formatter={(value: number) => [`$${value.toFixed(2)}`, 'Amount']}
+          formatter={(value: number) => [`Rs.${value.toFixed(2)}`, 'Amount']}
         />
         <Legend />
       </PieChart>

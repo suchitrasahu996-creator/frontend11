@@ -47,7 +47,7 @@ useEffect(() => {
     className: 'stat-card-expense'
   },
   {
-    title: 'Upcoming Bills',
+    title: 'Total Bills',
     value: dashboard?.billCount,
     icon: Receipt,
     className: 'stat-card-balance',
