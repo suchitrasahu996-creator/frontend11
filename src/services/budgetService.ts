@@ -23,4 +23,6 @@ export const budgetService = {
   create: (data: BudgetPayload) => api.post<ApiResponse<Budget>>('/budgets', data),
   update: (id: string, data: Partial<BudgetPayload>) => api.put<ApiResponse<Budget>>(`/budgets/${id}`, data),
   delete: (id: string) => api.delete<ApiResponse<null>>(`/budgets/${id}`),
+  save: (id: string, amount: number) =>
+  api.patch(`/budgets/${id}/spend`, { amount })
 };

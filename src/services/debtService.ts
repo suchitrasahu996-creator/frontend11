@@ -22,4 +22,6 @@ export const debtService = {
   create: (data: DebtPayload) => api.post<ApiResponse<Debt>>('/debts', data),
   update: (id: string, data: Partial<DebtPayload>) => api.put<ApiResponse<Debt>>(`/debts/${id}`, data),
   delete: (id: string) => api.delete<ApiResponse<null>>(`/debts/${id}`),
+  pay: (id: string, amount: number) =>
+  api.patch(`/debts/${id}/pay`,{ amount: Number(amount) }),
 };

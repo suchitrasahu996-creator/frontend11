@@ -27,7 +27,7 @@ const Debts = () => {
   };
    const handleSave = async () => {
       if (!saveDialogId) return;
-      try { await debtService.save(saveDialogId, saveAmount); toast.success('Amount saved!'); setSaveDialogId(null); setSaveAmount(0); fetchDebts(); }
+      try { await debtService.pay(saveDialogId, saveAmount); toast.success('Amount saved!'); setSaveDialogId(null); setSaveAmount(0); fetchDebts(); }
       catch (err: any) { toast.error(err.response?.data?.error || 'Failed'); }
     };
 
@@ -63,10 +63,10 @@ const Debts = () => {
 
           <Dialog open={!!saveDialogId} onOpenChange={() => setSaveDialogId(null)}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Add Savings</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Make Payment</DialogTitle></DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2"><Label>Amount</Label><Input type="number" step="0.01" min="0" value={saveAmount || ''} onChange={(e) => setSaveAmount(parseFloat(e.target.value) || 0)} /></div>
-            <Button onClick={handleSave} className="w-full">Save Amount</Button>
+            <Button onClick={handleSave} className="w-full">Pay Amount</Button>
           </div>
         </DialogContent>
       </Dialog>
