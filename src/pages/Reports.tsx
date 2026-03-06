@@ -23,7 +23,13 @@ const Reports = () => {
           analyticsService.categories(),
           analyticsService.summary(),
         ]);
-        setMonthly(mRes.data.data);
+        setMonthly([
+          {
+            month: mRes.data.data.month,
+            income: mRes.data.data.income,
+            expense: mRes.data.data.expenses,
+          },
+        ]);
         setCategories(cRes.data.data);
         setSummary(sRes.data.data);
       } catch (err: any) {
@@ -49,9 +55,9 @@ const Reports = () => {
 
       {summary && (
         <div className="grid gap-4 sm:grid-cols-3">
-          <Card className="stat-card-income"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Income</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold text-success">{formatCurrency(summary.totalIncome ?? 0)}</p></CardContent></Card>
-          <Card className="stat-card-expense"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Expenses</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold text-destructive">{formatCurrency(summary.totalExpense ?? 0)}</p></CardContent></Card>
-          <Card className="stat-card-balance"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Net Savings</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold">{formatCurrency((summary.totalIncome ?? 0) - (summary.totalExpense ?? 0))}</p></CardContent></Card>
+          <Card className="stat-card-income"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Income</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold text-success">{formatCurrency(summary.overview?.totalIncome ?? 0)}</p></CardContent></Card>
+          <Card className="stat-card-expense"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Expenses</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold text-destructive">{formatCurrency(summary.overview?.totalExpenses ?? 0)}</p></CardContent></Card>
+          <Card className="stat-card-balance"><CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Net Savings</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold">{formatCurrency((summary.overview?.totalIncome ?? 0) - (summary.overview?.totalExpenses ?? 0))}</p></CardContent></Card>
         </div>
       )}
 

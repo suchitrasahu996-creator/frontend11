@@ -9,9 +9,21 @@ import { formatCurrency, formatShortDate } from '@/utils/formatters';
 import { TrendingUp, TrendingDown, Receipt, IndianRupeeIcon } from 'lucide-react';
 
 const Dashboard = () => {
-  const { dashboard, loading, fetchDashboard } = useFinance();
+ const { 
+  dashboard,
+  monthlyTrend,
+  categories,
+  loading,
+  fetchDashboard,
+  fetchMonthly,
+  fetchCategories
+} = useFinance();
 
-  useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
+useEffect(() => {
+  fetchDashboard();
+  fetchMonthly();
+  fetchCategories();
+}, []);
 
   const isLoading = loading.dashboard;
 
@@ -78,7 +90,7 @@ const Dashboard = () => {
             <CardTitle>Monthly Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-72 w-full" /> : <MonthlyTrendChart data={dashboard?.monthlyTrend ?? []} />}
+            {isLoading ? <Skeleton className="h-72 w-full" /> : <MonthlyTrendChart data={monthlyTrend ?? []} />}
           </CardContent>
         </Card>
         <Card>
@@ -86,7 +98,7 @@ const Dashboard = () => {
             <CardTitle>Spending by Category</CardTitle>
           </CardHeader>
           <CardContent>
-            {isLoading ? <Skeleton className="h-72 w-full" /> : <CategoryPieChart data={dashboard?.expenseByCategory ?? []} />}
+            {isLoading ? <Skeleton className="h-72 w-full" /> : <CategoryPieChart data={categories?? []} />}
           </CardContent>
         </Card>
       </div>

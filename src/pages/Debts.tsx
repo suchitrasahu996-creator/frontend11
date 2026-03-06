@@ -7,13 +7,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Plus, Trash2, Percent } from 'lucide-react';
+import { Plus, Trash2, Percent,PiggyBank } from 'lucide-react';
 import { formatCurrency } from '@/utils/formatters';
 import { toast } from 'sonner';
 
 const Debts = () => {
   const { debts, loading, fetchDebts } = useFinance();
   const [open, setOpen] = useState(false);
+   const [saveDialogId, setSaveDialogId] = useState<string | null>(null);
+     const [saveAmount, setSaveAmount] = useState(0);
   const [form, setForm] = useState<DebtPayload>({ name: '', amount: 0, interest_rate: 0 });
 
   useEffect(() => { fetchDebts(); }, [fetchDebts]);
@@ -23,6 +25,11 @@ const Debts = () => {
     try { await debtService.create(form); toast.success('Debt added'); setOpen(false); setForm({ name: '', amount: 0, interest_rate: 0 }); fetchDebts(); }
     catch (err: any) { toast.error(err.response?.data?.error || 'Failed'); }
   };
+   const handleSave = async () => {
+      if (!saveDialogId) return;
+      try { await debtService.save(saveDialogId, saveAmount); toast.success('Amount saved!'); setSaveDialogId(null); setSaveAmount(0); fetchDebts(); }
+      catch (err: any) { toast.error(err.response?.data?.error || 'Failed'); }
+    };
 
   const handleDelete = async (id: string) => {
     try { await debtService.delete(id); toast.success('Debt deleted'); fetchDebts(); }
@@ -54,6 +61,16 @@ const Debts = () => {
         <CardContent><p className="text-3xl font-bold text-destructive">{formatCurrency(totalDebt)}</p></CardContent>
       </Card>
 
+          <Dialog open={!!saveDialogId} onOpenChange={() => setSaveDialogId(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Add Savings</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2"><Label>Amount</Label><Input type="number" step="0.01" min="0" value={saveAmount || ''} onChange={(e) => setSaveAmount(parseFloat(e.target.value) || 0)} /></div>
+            <Button onClick={handleSave} className="w-full">Save Amount</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {loading.debts ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[1,2,3].map(i => <Skeleton key={i} className="h-32" />)}</div>
       ) : !debts.length ? (
@@ -64,7 +81,10 @@ const Debts = () => {
             <Card key={d.id}>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-base">{d.name}</CardTitle>
+                 <div>
+              <Button variant="ghost" size="icon" onClick={() => setSaveDialogId(d.id)}><PiggyBank className="h-4 w-4 text-primary" /></Button>
                 <Button variant="ghost" size="icon" onClick={() => handleDelete(d.id)}><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-2">
                 <p className="text-2xl font-bold">{formatCurrency(d.amount)}</p>

@@ -105,8 +105,8 @@ const Bills = () => {
 </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        {!b.is_paid && <Button variant="ghost" size="icon" onClick={() => handlePay(b.id)}><Check className="h-4 w-4 text-success" /></Button>}
                         <Button variant="ghost" size="icon" onClick={() => handleDelete(b.id)}><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
+                          <Button variant="ghost" size="icon"  className={`${!b.is_paid ? "visible":"invisible pointer-events-none" }`}   onClick={() => handlePay(b.id)}><Check className="h-4 w-4 text-success" /></Button>
                       </div>
                     </TableCell>
                   </TableRow>

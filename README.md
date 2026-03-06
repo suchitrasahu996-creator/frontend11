@@ -100,7 +100,7 @@ Password: password123
 ![Transactions](./screenshots/transactions.png)
 
 ## Budget page
-![Budget](./screenshots/Budget.png)
+![Budget](./screenshots/budget.png)
 
 
 ## Bills page
